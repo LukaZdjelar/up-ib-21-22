@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,7 +18,7 @@ public class CheckUp {
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 	
-	@ManyToOne
+	@OneToOne
 	private Appointment appointment;
 	
 	@ManyToOne
