@@ -5,28 +5,29 @@
 }
 
 .form {
-  overflow: auto;
+  /* overflow: auto; */
   margin: auto;
-  width: 50%;
+
+  width: max-content;
   padding: 10px;
 }
 
-.form p{
+.form p {
   margin: auto;
   text-align: center;
 }
 
-.control {
+.block {
   margin-bottom: 0.5rem;
 }
 
-.control label {
+.block label {
   font-weight: bold;
   margin-bottom: 0.25rem;
   display: block;
 }
 
-.control input {
+.block input {
   font: inherit;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -34,7 +35,14 @@
   max-width: 100%;
 }
 
-button {
+.button {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+}
+
+.button button {
   font: inherit;
   cursor: pointer;
   border-radius: 10px;
@@ -43,10 +51,3 @@ button {
   background-color: green;
   color: white;
 }
-
-.button {
-    margin: auto;
-    width: 50%;
-    padding: 10px;
-    text-align: center;
- }
