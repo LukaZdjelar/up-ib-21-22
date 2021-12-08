@@ -7,20 +7,20 @@ import styles from "./Home.module.css";
 const Home = (props) => {
   return (
     <Card>
-      <HomeItem userType="PATIENT" text="Clinics"></HomeItem>
-      <HomeItem userType="PATIENT" text="Check-up history"></HomeItem>
-      <HomeItem userType="PATIENT" text="Medical record"></HomeItem>
-      <HomeItem userType="PATIENT" text="My profile"></HomeItem>
+      <HomeItem userType="PATIENT" text="Clinics" navigate='/clinics'></HomeItem>
+      <HomeItem userType="PATIENT" text="Check-up history" navigate='/'></HomeItem>
+      <HomeItem userType="PATIENT" text="Medical record" navigate='/'></HomeItem>
+      <HomeItem userType="PATIENT" text="My profile" navigate='/'></HomeItem>
 
-      <HomeItem userType="DOCTOR" text="Patients"></HomeItem>
-      <HomeItem userType="DOCTOR" text="Check-up"></HomeItem>
-      <HomeItem userType="DOCTOR" text="Work calendar"></HomeItem>
-      <HomeItem userType="DOCTOR" text="My profile"></HomeItem>
+      <HomeItem userType="DOCTOR" text="Patients" navigate='/'></HomeItem>
+      <HomeItem userType="DOCTOR" text="Check-up" navigate='/'></HomeItem>
+      <HomeItem userType="DOCTOR" text="Work calendar" navigate='/'></HomeItem>
+      <HomeItem userType="DOCTOR" text="My profile" navigate='/'></HomeItem>
 
-      <HomeItem userType="CLINIC_ADMINISTRATOR" text="Edit clinic data"></HomeItem>
-      <HomeItem userType="CLINIC_ADMINISTRATOR" text="Appointments"></HomeItem>
-      <HomeItem userType="CLINIC_ADMINISTRATOR" text="Create new appointment"></HomeItem>
-      <HomeItem userType="CLINIC_ADMINISTRATOR" text="Clinic report"></HomeItem>
+      <HomeItem userType="CLINIC_ADMINISTRATOR" text="Edit clinic data" navigate='/'></HomeItem>
+      <HomeItem userType="CLINIC_ADMINISTRATOR" text="Appointments" navigate='/'></HomeItem>
+      <HomeItem userType="CLINIC_ADMINISTRATOR" text="Create new appointment" navigate='/'></HomeItem>
+      <HomeItem userType="CLINIC_ADMINISTRATOR" text="Clinic report" navigate='/'></HomeItem>
 
       <button className={styles.button}>Log out</button>
     </Card>
