@@ -1,6 +1,5 @@
 import axios from "axios";
 import ClinicCard from "./ClinicCard";
-import Card from "../UI/Card";
 import { useEffect, useState } from "react";
 import styles from "./Clinics.module.css";
 import BigCard from "../UI/BigCard";

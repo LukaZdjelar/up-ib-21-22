@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ftn.upib.dto.ClinicDTO;
@@ -30,5 +31,11 @@ public class ClinicController {
 			clinicDTOList.add(new ClinicDTO(clinic));
 		}
 		return new ResponseEntity<>(clinicDTOList, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/{id}")
+	private ResponseEntity<ClinicDTO> findOne(@PathVariable("id") Long id){
+		Clinic clinic = clinicService.findClinicById(id);
+		return new ResponseEntity<>(new ClinicDTO(clinic), HttpStatus.OK);
 	}
 }

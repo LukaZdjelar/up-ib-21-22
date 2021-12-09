@@ -7,4 +7,5 @@ import com.ftn.upib.model.Clinic;
 public interface ClinicService {
 
 	List<Clinic> findAll();
+	Clinic findClinicById(Long id);
 }

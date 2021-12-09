@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import Clinic from "./Components/Clinic/Clinic";
 import Clinics from "./Components/Clinic/Clinics";
 import Home from "./Components/LoginRegister/Home";
 import Login from "./Components/LoginRegister/Login";
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/clinics" element={<Clinics />} />
+        <Route path="/clinics/:clinicId" element={<Clinic />} />
       </Routes>
     </UserProvider>
   );
