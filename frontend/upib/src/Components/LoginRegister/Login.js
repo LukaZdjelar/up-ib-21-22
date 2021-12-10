@@ -1,9 +1,8 @@
 import axios from "axios";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import Card from "../UI/Card";
 import styles from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
-import UserContext from "../../store/user-context";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
@@ -11,7 +10,6 @@ const Login = (props) => {
   const [invalid, setInvalid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  const userContext = useContext(UserContext);
 
   const formSubmitionHandler = (event) => {
     event.preventDefault();
@@ -28,7 +26,7 @@ const Login = (props) => {
           setInvalid(true);
           setErrorMessage("Invalid input!");
         } else {
-          userContext.user = response.data;
+          localStorage.setItem("loggedUser", JSON.stringify(response.data));
           navigate("home");
         }
       })

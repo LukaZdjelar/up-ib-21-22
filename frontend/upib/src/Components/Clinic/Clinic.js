@@ -5,12 +5,11 @@ import BigCard from "../UI/BigCard";
 
 const Clinic = (props) => {
   const [clinic, setClinic] = useState([]);
+  const params = useParams();
 
   useEffect(() => {
-    sendGetRequest();
+    sendGetRequest(); // eslint-disable-next-line
   }, []);
-
-  const params = useParams();
 
   const sendGetRequest = async () => {
     const response = await axios.get(
@@ -19,12 +18,14 @@ const Clinic = (props) => {
     setClinic(response.data);
   };
 
-  return <BigCard>
+  return (
+    <BigCard>
       <div>
-          <p>{clinic.name}</p>
-          <p>{clinic.description}</p>
-          <p>{clinic.address}</p>
+        <p>{clinic.name}</p>
+        <p>{clinic.description}</p>
+        <p>{clinic.address}</p>
       </div>
-  </BigCard>;
+    </BigCard>
+  );
 };
 export default Clinic;
