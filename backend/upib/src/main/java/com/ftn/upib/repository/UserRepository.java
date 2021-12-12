@@ -9,4 +9,5 @@ import com.ftn.upib.model.User;
 public interface UserRepository extends JpaRepository<User, Long>{
 	
 	User findUserByEmail(String email);
+	User findUserById(Long id);
 }

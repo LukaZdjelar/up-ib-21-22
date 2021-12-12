@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -32,4 +34,21 @@ public class UserController {
 		
 		return new ResponseEntity<>(new UserDTO(user), HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "/{id}")
+	private ResponseEntity<UserDTO> findOne(@PathVariable("id") Long id){
+		User user = userService.findUserById(id);
+		return new ResponseEntity<>(new UserDTO(user), HttpStatus.OK);
+	}
+	
+	@PutMapping(value = "/{id}")
+	private ResponseEntity<UserDTO> update(@RequestBody UserDTO updated, @PathVariable("id") Long id){
+		
+		User user = userService.findUserById(id);
+		user = new User(id, updated.getFirstname(), updated.getLastname(), user.getUserType(), user.getEmail(), updated.getPassword(), updated.getAddress(), updated.getPhoneNumber(), user.getLbo(), user.getClinic());
+		
+		userService.save(user);
+		return new ResponseEntity<>(updated, HttpStatus.OK);
+	}
+
 }

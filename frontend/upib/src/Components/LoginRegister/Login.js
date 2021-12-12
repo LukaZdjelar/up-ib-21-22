@@ -26,7 +26,12 @@ const Login = (props) => {
           setInvalid(true);
           setErrorMessage("Invalid input!");
         } else {
-          localStorage.setItem("loggedUser", JSON.stringify(response.data));
+          console.log(response.data.userType)
+          const userStore = {
+            id: response.data.id,
+            userType: response.data.userType,
+          };
+          localStorage.setItem("loggedUser", JSON.stringify(userStore));
           navigate("home");
         }
       })
