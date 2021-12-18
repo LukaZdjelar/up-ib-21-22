@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ftn.upib.dto.AppointmentDTO;
 import com.ftn.upib.dto.ClinicDTO;
+import com.ftn.upib.model.Appointment;
 import com.ftn.upib.model.Clinic;
+import com.ftn.upib.service.AppointmentService;
 import com.ftn.upib.service.ClinicService;
 
 @Controller
@@ -23,6 +26,9 @@ public class ClinicController {
 
 	@Autowired
 	ClinicService clinicService;
+	
+	@Autowired
+	AppointmentService appointmentService;
 	
 	@GetMapping
 	private ResponseEntity<List<ClinicDTO>> findAll(){
@@ -37,5 +43,15 @@ public class ClinicController {
 	private ResponseEntity<ClinicDTO> findOne(@PathVariable("id") Long id){
 		Clinic clinic = clinicService.findClinicById(id);
 		return new ResponseEntity<>(new ClinicDTO(clinic), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/{id}/appointments")
+	private ResponseEntity<List<AppointmentDTO>> findClinicAppointments(@PathVariable("id") Long id){
+		List<Appointment> clinicAppointments = appointmentService.findAllClinic(id);
+		List<AppointmentDTO> clinicAppointmentsDTO = new ArrayList<>();
+		for (Appointment appointment : clinicAppointments) {
+			clinicAppointmentsDTO.add(new AppointmentDTO(appointment));
+		}
+		return new ResponseEntity<>(clinicAppointmentsDTO, HttpStatus.OK);
 	}
 }

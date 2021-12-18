@@ -34,11 +34,14 @@ public class Appointment {
 	@ManyToOne
 	private Clinic clinic;
 	
+	@Column(name = "free", unique = false, nullable = false)
+	private boolean free;
+	
 	public Appointment() {
 		
 	}
 
-	public Appointment(Long id, User doctor, LocalDateTime dateAndTime, Double price, Integer duration, Clinic clinic) {
+	public Appointment(Long id, User doctor, LocalDateTime dateAndTime, Double price, Integer duration, Clinic clinic, Boolean free) {
 		super();
 		this.id = id;
 		this.doctor = doctor;
@@ -46,6 +49,7 @@ public class Appointment {
 		this.price = price;
 		this.duration = duration;
 		this.clinic = clinic;
+		this.free = free;
 	}
 
 	public Long getId() {
@@ -96,10 +100,18 @@ public class Appointment {
 		this.clinic = clinic;
 	}
 
+	public boolean isFree() {
+		return free;
+	}
+
+	public void setFree(boolean free) {
+		this.free = free;
+	}
+
 	@Override
 	public String toString() {
 		return "Appointment [id=" + id + ", doctor=" + doctor + ", dateAndTime=" + dateAndTime + ", price=" + price
-				+ ", duration=" + duration + ", clinic=" + clinic + "]";
+				+ ", duration=" + duration + ", clinic=" + clinic + ", free=" + free + "]";
 	}
 	
 }

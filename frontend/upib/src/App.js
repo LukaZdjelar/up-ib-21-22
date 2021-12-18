@@ -7,6 +7,7 @@ import Login from "./Components/LoginRegister/Login";
 import User from "./Components/User/User";
 import UserProvider from "./store/UserProvider";
 import EditUser from "./Components/User/EditUser";
+import Appointments from "./Components/Appointment/Appointments";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/clinics" element={<Clinics />} />
         <Route path="/clinics/:clinicId" element={<Clinic />} />
+        <Route path="/clinics/:clinicId/appointments" element={<Appointments />} />
         <Route path="/user/:userId" element={<User />} />
         <Route path="/user/:userId/edit" element={<EditUser />} />
       </Routes>
