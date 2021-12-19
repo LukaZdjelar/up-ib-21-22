@@ -8,6 +8,7 @@ import User from "./Components/User/User";
 import UserProvider from "./store/UserProvider";
 import EditUser from "./Components/User/EditUser";
 import Appointments from "./Components/Appointment/Appointments";
+import Appointment from "./Components/Appointment/Appointment";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/clinics" element={<Clinics />} />
         <Route path="/clinics/:clinicId" element={<Clinic />} />
         <Route path="/clinics/:clinicId/appointments" element={<Appointments />} />
+        <Route path="/clinics/:clinicId/appointments/:appointmentId" element={<Appointment />} />
         <Route path="/user/:userId" element={<User />} />
         <Route path="/user/:userId/edit" element={<EditUser />} />
       </Routes>
