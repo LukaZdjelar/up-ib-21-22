@@ -40,4 +40,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return appointmentRepository.findAppointmentById(id);
 	}
 
+	@Override
+	public Appointment create(Appointment appointment) {
+		return appointmentRepository.save(appointment);
+	}
+
 }

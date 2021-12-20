@@ -54,7 +54,7 @@ const Home = (props) => {
       <HomeItem
         userType="CLINIC_ADMINISTRATOR"
         text="Create new appointment"
-        navigate="/"
+        navigate="/createAppointment"
       ></HomeItem>
       <HomeItem
         userType="CLINIC_ADMINISTRATOR"

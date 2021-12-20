@@ -1,5 +1,7 @@
 package com.ftn.upib.service;
 
+import java.util.List;
+
 import com.ftn.upib.model.User;
 
 public interface UserService {
@@ -7,4 +9,6 @@ public interface UserService {
 	User findUserByEmail(String email);
 	User findUserById(Long id);
 	User save(User user);
+	List<User> findAll();
+	List<User> findAllDoctors();
 }

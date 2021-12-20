@@ -34,6 +34,10 @@ public class AppointmentDTO {
 		clinicName = appointment.getClinic().getName();
 		free = appointment.isFree();
 	}
+	
+	public AppointmentDTO() {
+		
+	}
 
 	public Long getId() {
 		return id;

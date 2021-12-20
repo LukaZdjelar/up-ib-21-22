@@ -9,6 +9,7 @@ import UserProvider from "./store/UserProvider";
 import EditUser from "./Components/User/EditUser";
 import Appointments from "./Components/Appointment/Appointments";
 import Appointment from "./Components/Appointment/Appointment";
+import CreateAppointment from "./Components/Appointment/CreateAppointment";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/clinics/:clinicId/appointments/:appointmentId" element={<Appointment />} />
         <Route path="/user/:userId" element={<User />} />
         <Route path="/user/:userId/edit" element={<EditUser />} />
+        <Route path="/createAppointment" element={<CreateAppointment />} />
       </Routes>
     </UserProvider>
   );

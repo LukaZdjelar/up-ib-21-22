@@ -9,4 +9,5 @@ public interface AppointmentService {
 	List<Appointment> findAll();
 	List<Appointment> findAllClinic(Long id);
 	Appointment findAppointmentById(Long id);
+	Appointment create(Appointment appointment);
 }
