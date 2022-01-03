@@ -4,17 +4,26 @@ import { useEffect, useState } from "react";
 import styles from "./Clinics.module.css";
 import BigCard from "../UI/BigCard";
 import Card from "../UI/Card";
+import DatePicker from "react-date-picker";
 
 const Clinics = () => {
   const [clinics, setClinics] = useState([]);
   const [sortKey, setSortKey] = useState("id");
+  const [date, setDate] = useState(new Date());
 
   useEffect(() => {
-    sendGetRequest();
-  }, [sortKey]);
+    sendGetRequest(); // eslint-disable-next-line
+  }, [sortKey, date]);
 
   const sendGetRequest = async () => {
-    const response = await axios.get("http://localhost:8080/clinic");
+    var stringDate =
+      date.getDate().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getFullYear().toString();
+      
+    console.log(stringDate);
+    const response = await axios.post(
+      "http://localhost:8080/clinic/date",
+      stringDate
+    );
     setClinics(response.data);
   };
 
@@ -70,6 +79,9 @@ const Clinics = () => {
         <button className="sortButton" onClick={addressSortHandler}>
           Sort by address
         </button>
+      </Card>
+      <Card>
+        <DatePicker value={date} onChange={setDate} />
       </Card>
       <BigCard>
         <ul>{clinicList}</ul>

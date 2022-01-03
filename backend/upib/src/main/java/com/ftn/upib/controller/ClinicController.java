@@ -1,5 +1,8 @@
 package com.ftn.upib.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ftn.upib.dto.AppointmentDTO;
@@ -53,5 +58,17 @@ public class ClinicController {
 			clinicAppointmentsDTO.add(new AppointmentDTO(appointment));
 		}
 		return new ResponseEntity<>(clinicAppointmentsDTO, HttpStatus.OK);
+	}
+	
+	@PostMapping("/date")
+	private ResponseEntity<List<ClinicDTO>> findAllByDate(@RequestBody String stringDate){
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-M-yyyy=");
+		LocalDate date = LocalDate.parse(stringDate, formatter);
+		
+		List<ClinicDTO> clinicDTOList = new ArrayList<>();
+		for (Clinic clinic : clinicService.findClinicsByAppointmentDate(date)) {
+			clinicDTOList.add(new ClinicDTO(clinic));
+		}
+		return new ResponseEntity<>(clinicDTOList, HttpStatus.OK);
 	}
 }
