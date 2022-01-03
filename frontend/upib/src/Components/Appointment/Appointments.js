@@ -16,7 +16,8 @@ const Appointment = () => {
     const response = await axios.get(
       "http://localhost:8080/clinic/" +
         String(params.clinicId) +
-        "/appointments"
+        "/" +
+        String(params.doctorId)
     );
     setAppointments(response.data);
   };

@@ -50,14 +50,16 @@ public class ClinicController {
 		return new ResponseEntity<>(new ClinicDTO(clinic), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/{id}/appointments")
-	private ResponseEntity<List<AppointmentDTO>> findClinicAppointments(@PathVariable("id") Long id){
-		List<Appointment> clinicAppointments = appointmentService.findAllClinic(id);
-		List<AppointmentDTO> clinicAppointmentsDTO = new ArrayList<>();
+	@GetMapping(value = "/{clinicId}/{doctorId}")
+	private ResponseEntity<List<AppointmentDTO>> findClinicAppointments(@PathVariable("clinicId") Long clinicId, @PathVariable("doctorId") Long doctorId){
+		List<Appointment> clinicAppointments = appointmentService.findAllClinic(clinicId);
+		List<AppointmentDTO> appointmentsDTO = new ArrayList<>();
 		for (Appointment appointment : clinicAppointments) {
-			clinicAppointmentsDTO.add(new AppointmentDTO(appointment));
+			if (appointment.getDoctor().getId().equals(doctorId)) {
+				appointmentsDTO.add(new AppointmentDTO(appointment));	
+			}
 		}
-		return new ResponseEntity<>(clinicAppointmentsDTO, HttpStatus.OK);
+		return new ResponseEntity<>(appointmentsDTO, HttpStatus.OK);
 	}
 	
 	@PostMapping("/date")
