@@ -57,10 +57,8 @@ public class UserController {
 	@GetMapping(value="/doctors/{id}")
 	private ResponseEntity<List<UserDTO>> findDoctors(@PathVariable("id") Long id){
 		List<UserDTO> doctorsDTOList = new ArrayList<>();
-		for (User user : userService.findAllDoctors()) {
-			if (user.getClinic().getId()==id) {
-				doctorsDTOList.add(new UserDTO(user));
-			}
+		for (User user : userService.findDoctorsByClinic(id)) {
+			doctorsDTOList.add(new UserDTO(user));
 		}
 		
 		return new ResponseEntity<>(doctorsDTOList, HttpStatus.OK);

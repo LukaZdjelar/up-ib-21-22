@@ -11,4 +11,5 @@ public interface UserService {
 	User save(User user);
 	List<User> findAll();
 	List<User> findAllDoctors();
+	List<User> findDoctorsByClinic(Long id);
 }

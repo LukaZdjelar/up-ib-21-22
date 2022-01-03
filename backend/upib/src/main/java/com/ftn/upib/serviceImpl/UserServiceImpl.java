@@ -68,6 +68,17 @@ public class UserServiceImpl implements UserService{
 		return doctors;
 	}
 
+	@Override
+	public List<User> findDoctorsByClinic(Long id) {
+		List<User> doctors = new ArrayList<>();
+		for (User doctor : findAllDoctors()) {
+			if (doctor.getClinic().getId().equals(id)) {
+				doctors.add(doctor);
+			}
+		}
+		return doctors;
+	}
+
 	
 
 }
