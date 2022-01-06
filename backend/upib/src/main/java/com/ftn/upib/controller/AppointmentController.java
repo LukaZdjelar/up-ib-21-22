@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ftn.upib.dto.AppointmentDTO;
+import com.ftn.upib.dto.CheckUpDTO;
 import com.ftn.upib.model.Appointment;
+import com.ftn.upib.model.CheckUp;
 import com.ftn.upib.service.AppointmentService;
+import com.ftn.upib.service.CheckupService;
 import com.ftn.upib.service.ClinicService;
 import com.ftn.upib.service.UserService;
 
@@ -33,6 +36,9 @@ public class AppointmentController {
 	@Autowired
 	ClinicService clinicService;
 	
+	@Autowired
+	CheckupService checkupService;
+	
 	@GetMapping(value="/{id}")
 	private ResponseEntity<AppointmentDTO> get(@PathVariable("id") Long id){
 		return new ResponseEntity<>(new AppointmentDTO(appointmentService.findAppointmentById(id)), HttpStatus.OK);
@@ -44,5 +50,15 @@ public class AppointmentController {
 		
 		appointmentService.create(appointment);
 		return new ResponseEntity<>(new AppointmentDTO(appointment), HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/schedule")
+	private ResponseEntity<CheckUpDTO> schedule(@RequestBody CheckUpDTO checkUpDTO){
+		System.out.println(checkUpDTO);
+		CheckUp checkup = new CheckUp(null, appointmentService.findAppointmentById(checkUpDTO.getAppointmentId()), userService.findUserById(checkUpDTO.getPatientId()), "");
+		Appointment appointment = appointmentService.findAppointmentById(checkUpDTO.getAppointmentId());
+		appointmentService.schedule(appointment);
+		checkupService.save(checkup);
+		return new ResponseEntity<>(checkUpDTO, HttpStatus.OK);
 	}
 }

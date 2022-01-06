@@ -10,6 +10,7 @@ import EditUser from "./Components/User/EditUser";
 import Appointments from "./Components/Appointment/Appointments";
 import Appointment from "./Components/Appointment/Appointment";
 import CreateAppointment from "./Components/Appointment/CreateAppointment";
+import ScheduleAppointment from "./Components/Appointment/ScheduleAppointment";
 
 function App() {
   return (
@@ -20,7 +21,14 @@ function App() {
         <Route path="/clinics" element={<Clinics />} />
         <Route path="/clinics/:clinicId" element={<Clinic />} />
         <Route path="/clinics/:clinicId/:doctorId" element={<Appointments />} />
-        <Route path="/clinics/:clinicId/:doctorId/:appointmentId" element={<Appointment />} />
+        <Route
+          path="/clinics/:clinicId/:doctorId/:appointmentId"
+          element={<Appointment />}
+        />
+        <Route
+          path="/clinics/:clinicId/:doctorId/:appointmentId/schedule"
+          element={<ScheduleAppointment />}
+        />
         <Route path="/user/:userId" element={<User />} />
         <Route path="/user/:userId/edit" element={<EditUser />} />
         <Route path="/createAppointment" element={<CreateAppointment />} />
