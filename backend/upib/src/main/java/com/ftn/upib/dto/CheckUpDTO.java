@@ -20,7 +20,7 @@ public class CheckUpDTO {
 	}
 
 	public CheckUpDTO(CheckUp checkup) {
-		if(id != null) {
+		if(checkup.getId() != null) {
 			id = checkup.getId();
 		}
 		appointmentId = checkup.getAppointment().getId();

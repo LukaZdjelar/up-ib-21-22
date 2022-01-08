@@ -11,6 +11,7 @@ import Appointments from "./Components/Appointment/Appointments";
 import Appointment from "./Components/Appointment/Appointment";
 import CreateAppointment from "./Components/Appointment/CreateAppointment";
 import ScheduleAppointment from "./Components/Appointment/ScheduleAppointment";
+import AppointmentHistory from "./Components/Appointment/AppointmentHistory";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           path="/clinics/:clinicId/:doctorId/:appointmentId/schedule"
           element={<ScheduleAppointment />}
         />
+        <Route path="/history" element={<AppointmentHistory />} />
         <Route path="/user/:userId" element={<User />} />
         <Route path="/user/:userId/edit" element={<EditUser />} />
         <Route path="/createAppointment" element={<CreateAppointment />} />

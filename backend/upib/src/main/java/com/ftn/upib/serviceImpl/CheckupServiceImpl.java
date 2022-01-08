@@ -1,5 +1,8 @@
 package com.ftn.upib.serviceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,4 +21,19 @@ public class CheckupServiceImpl implements CheckupService{
 		return checkupRespository.save(checkup);
 	}
 
+	@Override
+	public List<CheckUp> findAll() {
+		return checkupRespository.findAll();
+	}
+
+	@Override
+	public List<CheckUp> findAllByPatient(Long id) {
+		List<CheckUp> checkupList = new ArrayList<>();
+		for (CheckUp checkUp : findAll()) {
+			if (checkUp.getPatient().getId().equals(id)) {
+				checkupList.add(checkUp);
+			}
+		}
+		return checkupList;
+	}
 }

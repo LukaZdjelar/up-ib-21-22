@@ -51,4 +51,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return appointmentRepository.save(appointment);
 	}
 
+	@Override
+	public List<Appointment> findAppointmentByPatientId(Long id) {
+		List<Appointment> appointments = new ArrayList<>();
+		for (Appointment appointment : findAll()) {
+			if (appointment.getId().equals(id)) {
+				appointments.add(appointment);
+			}
+		}
+		return appointments;
+	}
 }

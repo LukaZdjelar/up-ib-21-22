@@ -1,5 +1,8 @@
 package com.ftn.upib.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +63,19 @@ public class AppointmentController {
 		appointmentService.schedule(appointment);
 		checkupService.save(checkup);
 		return new ResponseEntity<>(checkUpDTO, HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/history/{id}")
+	private ResponseEntity<List<AppointmentDTO>> history(@PathVariable("id") Long id){
+//		List<CheckUpDTO> checkUpListDTO = new ArrayList<CheckUpDTO>();
+//		for (CheckUp checkUp : checkupService.findAllByPatient(id)) {
+//			checkUpListDTO.add(new CheckUpDTO(checkUp));
+//		}
+//		return new ResponseEntity<>(checkUpListDTO, HttpStatus.OK);
+		List<AppointmentDTO> appointmentListDTO = new ArrayList<>();
+		for (Appointment appointment : appointmentService.findAppointmentByPatientId(id)) {
+			appointmentListDTO.add(new AppointmentDTO(appointment));
+		}
+		return new ResponseEntity<>(appointmentListDTO, HttpStatus.OK);
 	}
 }

@@ -23,7 +23,7 @@ const Home = (props) => {
       <HomeItem
         userType="PATIENT"
         text="Check-up history"
-        navigate="/"
+        navigate="/history"
       ></HomeItem>
       <HomeItem
         userType="PATIENT"
