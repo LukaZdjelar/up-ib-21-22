@@ -23,6 +23,7 @@ import com.ftn.upib.model.CheckUp;
 import com.ftn.upib.service.AppointmentService;
 import com.ftn.upib.service.CheckupService;
 import com.ftn.upib.service.ClinicService;
+import com.ftn.upib.service.EmailService;
 import com.ftn.upib.service.UserService;
 
 @Controller
@@ -42,6 +43,9 @@ public class AppointmentController {
 	@Autowired
 	CheckupService checkupService;
 	
+	@Autowired
+	EmailService emailService;
+	
 	@GetMapping(value="/{id}")
 	private ResponseEntity<AppointmentDTO> get(@PathVariable("id") Long id){
 		return new ResponseEntity<>(new AppointmentDTO(appointmentService.findAppointmentById(id)), HttpStatus.OK);
@@ -57,11 +61,12 @@ public class AppointmentController {
 	
 	@PostMapping(value="/schedule")
 	private ResponseEntity<CheckUpDTO> schedule(@RequestBody CheckUpDTO checkUpDTO){
-		System.out.println(checkUpDTO);
 		CheckUp checkup = new CheckUp(null, appointmentService.findAppointmentById(checkUpDTO.getAppointmentId()), userService.findUserById(checkUpDTO.getPatientId()), "");
 		Appointment appointment = appointmentService.findAppointmentById(checkUpDTO.getAppointmentId());
 		appointmentService.schedule(appointment);
 		checkupService.save(checkup);
+		String patientEmail = userService.findUserById(checkUpDTO.getPatientId()).getEmail();
+		emailService.sendEmail(patientEmail, "Uspesno zakazan pregled!");
 		return new ResponseEntity<>(checkUpDTO, HttpStatus.OK);
 	}
 	
