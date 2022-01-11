@@ -66,7 +66,9 @@ public class AppointmentController {
 		appointmentService.schedule(appointment);
 		checkupService.save(checkup);
 		String patientEmail = userService.findUserById(checkUpDTO.getPatientId()).getEmail();
-		emailService.sendEmail(patientEmail, "Uspesno zakazan pregled!");
+		String message = "Uspesno zakazan pregled kod doktora " + appointment.getDoctor().getFirstname() + " " + appointment.getDoctor().getLastname() + " dana " + appointment.getDateAndTime() + "<br />" + "<br />" +
+							"Hvala na poveranju!" + "<br />" + appointment.getDoctor().getClinic().getName();
+		emailService.sendEmail(patientEmail, message);
 		return new ResponseEntity<>(checkUpDTO, HttpStatus.OK);
 	}
 	

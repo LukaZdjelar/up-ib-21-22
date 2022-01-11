@@ -11,4 +11,5 @@ public interface ClinicService {
 	List<Clinic> findAll();
 	Clinic findClinicById(Long id);
 	List<Clinic> findClinicsByAppointmentDate(LocalDate date);
+	List<Clinic> searchByAny(String term);
 }

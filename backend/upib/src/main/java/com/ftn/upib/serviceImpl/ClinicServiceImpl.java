@@ -54,4 +54,16 @@ public class ClinicServiceImpl implements ClinicService{
 		
 		return clinicsToShow;
 	}
+
+	@Override
+	public List<Clinic> searchByAny(String term) {
+		term = term.toLowerCase();
+		List<Clinic> clinics = new ArrayList<>();
+		for (Clinic clinic : findAll()) {
+			if (clinic.getName().toLowerCase().contains(term) || clinic.getAddress().toLowerCase().contains(term) || clinic.getDescription().toLowerCase().contains(term)) {
+				clinics.add(clinic);
+			}
+		}
+		return clinics;
+	}
 }

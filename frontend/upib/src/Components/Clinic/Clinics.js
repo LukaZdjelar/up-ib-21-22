@@ -10,19 +10,28 @@ const Clinics = () => {
   const [clinics, setClinics] = useState([]);
   const [sortKey, setSortKey] = useState("id");
   const [date, setDate] = useState(new Date());
+  const [term, setTerm] = useState("");
 
   useEffect(() => {
     sendGetRequest(); // eslint-disable-next-line
-  }, [sortKey, date]);
+  }, [sortKey, date, term]);
 
   const sendGetRequest = async () => {
     var stringDate =
-      date.getDate().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getFullYear().toString();
-      
+      date.getDate().toString() +
+      "-" +
+      (date.getMonth() + 1).toString() +
+      "-" +
+      date.getFullYear().toString();
+
+    const filter = {
+      date: stringDate,
+      term: term,
+    };
     console.log(stringDate);
     const response = await axios.post(
-      "http://localhost:8080/clinic/date",
-      stringDate
+      "http://localhost:8080/clinic/search",
+      filter
     );
     setClinics(response.data);
   };
@@ -67,6 +76,10 @@ const Clinics = () => {
     />
   ));
 
+  const termInputChangeHandler = (event) => {
+    setTerm(event.target.value);
+  };
+
   return (
     <section className={styles.clinics}>
       <Card>
@@ -82,6 +95,9 @@ const Clinics = () => {
       </Card>
       <Card>
         <DatePicker value={date} onChange={setDate} />
+      </Card>
+      <Card>
+        <input type="text" value={term} onChange={termInputChangeHandler} />
       </Card>
       <BigCard>
         <ul>{clinicList}</ul>

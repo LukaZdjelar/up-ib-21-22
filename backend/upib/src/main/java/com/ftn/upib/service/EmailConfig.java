@@ -34,7 +34,7 @@ public class EmailConfig {
         mailSender.setHost(host);
         mailSender.setPort(GMAIL_SMTP_PORT);
         
-     // Set up email config (using udeesa email)
+        // Set up email config (using udeesa email)
         mailSender.setUsername(user);
         mailSender.setPassword(password);
         

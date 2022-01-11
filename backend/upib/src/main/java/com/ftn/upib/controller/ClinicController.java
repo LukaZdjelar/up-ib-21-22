@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ftn.upib.dto.AppointmentDTO;
 import com.ftn.upib.dto.ClinicDTO;
+import com.ftn.upib.dto.FilterDTO;
 import com.ftn.upib.model.Appointment;
 import com.ftn.upib.model.Clinic;
 import com.ftn.upib.service.AppointmentService;
@@ -62,15 +63,40 @@ public class ClinicController {
 		return new ResponseEntity<>(appointmentsDTO, HttpStatus.OK);
 	}
 	
-	@PostMapping("/date")
-	private ResponseEntity<List<ClinicDTO>> findAllByDate(@RequestBody String stringDate){
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-M-yyyy=");
-		LocalDate date = LocalDate.parse(stringDate, formatter);
-		
+	@PostMapping("/search")
+	private ResponseEntity<List<ClinicDTO>> findAllByDate(@RequestBody FilterDTO filter){
+		System.out.println(filter.getDate());
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-M-yyyy");
+		LocalDate date = LocalDate.parse(filter.getDate(), formatter);
 		List<ClinicDTO> clinicDTOList = new ArrayList<>();
-		for (Clinic clinic : clinicService.findClinicsByAppointmentDate(date)) {
-			clinicDTOList.add(new ClinicDTO(clinic));
+		
+		if(!filter.getTerm().equals("")) {
+			for (Clinic clinic : clinicService.findClinicsByAppointmentDate(date)) {
+				if (clinicService.searchByAny(filter.getTerm()).contains(clinic)) {
+					clinicDTOList.add(new ClinicDTO(clinic));
+				}
+			}
+		}else {
+			for (Clinic clinic : clinicService.findClinicsByAppointmentDate(date)) {
+				clinicDTOList.add(new ClinicDTO(clinic));
+			}
 		}
+		
 		return new ResponseEntity<>(clinicDTOList, HttpStatus.OK);
 	}
+	
+//	@PostMapping("/search")
+//	private ResponseEntity<List<ClinicDTO>> search(@RequestBody String term){
+//		List<ClinicDTO> clinicDTOList = new ArrayList<>();
+//		if(term.equals("")) {
+//			for (Clinic clinic : clinicService.findAll()) {
+//				clinicDTOList.add(new ClinicDTO(clinic));
+//			}
+//		}else {
+//			for (Clinic clinic : clinicService.searchByAny(term)) {
+//				clinicDTOList.add(new ClinicDTO(clinic));
+//			}
+//		}
+//		return new ResponseEntity<>(clinicDTOList, HttpStatus.OK);
+//	}
 }
