@@ -38,7 +38,11 @@ const Home = (props) => {
 
       <HomeItem userType="DOCTOR" text="Patients" navigate="/"></HomeItem>
       <HomeItem userType="DOCTOR" text="Check-up" navigate="/"></HomeItem>
-      <HomeItem userType="DOCTOR" text="Work calendar" navigate="/"></HomeItem>
+      <HomeItem
+        userType="DOCTOR"
+        text="Work calendar"
+        navigate="/calendar"
+      ></HomeItem>
       <HomeItem userType="DOCTOR" text="My profile" navigate="/"></HomeItem>
 
       <HomeItem

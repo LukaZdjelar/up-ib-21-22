@@ -12,4 +12,5 @@ public interface AppointmentService {
 	Appointment create(Appointment appointment);
 	Appointment schedule(Appointment appointment);
 	List<Appointment> findAppointmentByPatientId(Long id);
+	List<Appointment> findAppointmentByDoctorId(Long id);
 }

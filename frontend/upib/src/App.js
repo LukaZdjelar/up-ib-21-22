@@ -12,6 +12,7 @@ import Appointment from "./Components/Appointment/Appointment";
 import CreateAppointment from "./Components/Appointment/CreateAppointment";
 import ScheduleAppointment from "./Components/Appointment/ScheduleAppointment";
 import AppointmentHistory from "./Components/Appointment/AppointmentHistory";
+import WorkCalendar from "./Components/Doctor/WorkCalendar";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/user/:userId" element={<User />} />
         <Route path="/user/:userId/edit" element={<EditUser />} />
         <Route path="/createAppointment" element={<CreateAppointment />} />
+        <Route path="/calendar" element={<WorkCalendar />} />
       </Routes>
     </UserProvider>
   );

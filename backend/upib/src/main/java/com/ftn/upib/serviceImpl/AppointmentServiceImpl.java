@@ -61,4 +61,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 		}
 		return appointments;
 	}
+
+	@Override
+	public List<Appointment> findAppointmentByDoctorId(Long id) {
+		List<Appointment> appointments = new ArrayList<>();
+		for (Appointment appointment : findAll()) {
+			if (appointment.getDoctor().getId().equals(id)) {
+				appointments.add(appointment);
+			}
+		}
+		return appointments;
+	}
 }

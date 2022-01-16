@@ -16,6 +16,7 @@ public class AppointmentDTO {
 	private String doctorFirstname;
 	private String doctorLastname;
 	private LocalDateTime dateAndTime;
+	private LocalDateTime endDateAndTime;
 	private Double price;
 	private Integer duration;
 	private Long clinicId;
@@ -30,6 +31,7 @@ public class AppointmentDTO {
 		dateAndTime = appointment.getDateAndTime();
 		price = appointment.getPrice();
 		duration = appointment.getDuration();
+		endDateAndTime = dateAndTime.plusMinutes(duration);
 		clinicId = appointment.getClinic().getId();
 		clinicName = appointment.getClinic().getName();
 		free = appointment.isFree();
@@ -95,6 +97,14 @@ public class AppointmentDTO {
 		this.duration = duration;
 	}
 
+	public LocalDateTime getEndDateAndTime() {
+		return endDateAndTime;
+	}
+
+	public void setEndDateAndTime(LocalDateTime endDateAndTime) {
+		this.endDateAndTime = endDateAndTime;
+	}
+
 	public Long getClinicId() {
 		return clinicId;
 	}
@@ -118,6 +128,4 @@ public class AppointmentDTO {
 	public void setFree(boolean free) {
 		this.free = free;
 	}
-	
-	
 }

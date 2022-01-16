@@ -80,7 +80,16 @@ public class AppointmentController {
 //		}
 //		return new ResponseEntity<>(checkUpListDTO, HttpStatus.OK);
 		List<AppointmentDTO> appointmentListDTO = new ArrayList<>();
-		for (Appointment appointment : appointmentService.findAppointmentByPatientId(id)) {
+		for (Appointment appointment : checkupService.findAppointmentByPatientId(id)) {
+			appointmentListDTO.add(new AppointmentDTO(appointment));
+		}
+		return new ResponseEntity<>(appointmentListDTO, HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/workcalendar/{id}")
+	private ResponseEntity<List<AppointmentDTO>> workCalendar(@PathVariable("id") Long id){
+		List<AppointmentDTO> appointmentListDTO = new ArrayList<>();
+		for (Appointment appointment : appointmentService.findAppointmentByDoctorId(id)) {
 			appointmentListDTO.add(new AppointmentDTO(appointment));
 		}
 		return new ResponseEntity<>(appointmentListDTO, HttpStatus.OK);
