@@ -34,10 +34,7 @@ const WorkCalendar = (props) => {
       })
     );
     setEvents(data);
-    console.log(typeof data[1].start);
   };
-
-  console.log(events);
 
   return (
     <div>
@@ -46,10 +43,10 @@ const WorkCalendar = (props) => {
         events={events}
         startAccessor="start"
         endAccessor="end"
-        step="30"
+        step="15"
         defaultView="week"
         min={new Date(2019, 1, 1, 7, 0)}
-        max={new Date(2022, 1, 1, 21, 0)}
+        max={new Date(2022, 1, 1, 19, 0)}
         selectable="true"
       />
     </div>

@@ -1,12 +1,13 @@
 import Card from "../UI/Card";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./ScheduleAppointment.module.css";
 
 const ScheduleAppointment = () => {
   const [appointment, setAppointment] = useState([]);
   const params = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     sendGetRequest(); // eslint-disable-next-line
@@ -25,6 +26,7 @@ const ScheduleAppointment = () => {
       patientId: JSON.parse(localStorage.getItem("loggedUser")).id,
     };
     axios.post("http://localhost:8080/appointment/schedule", checkup);
+    navigate("/home");
   };
 
   return (

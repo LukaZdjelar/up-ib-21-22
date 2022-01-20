@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BigCard from "../UI/BigCard";
+import Card from "../UI/Card";
 import AppointmentCard from "../Appointment/AppointmentCard";
 import axios from "axios";
 

@@ -42,9 +42,7 @@ const Clinic = (props) => {
         <p>{clinic.address}</p>
       </div>
 
-      <BigCard>
-        <ul>{doctorsList}</ul>
-      </BigCard>
+      <ul>{doctorsList}</ul>
     </BigCard>
   );
 };

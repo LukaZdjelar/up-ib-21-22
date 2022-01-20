@@ -34,7 +34,6 @@ const CreateAppointment = () => {
       ),
     };
     axios.post("http://localhost:8080/appointment", appointment);
-    //console.log(appointment);
   };
 
   const doctorInputChangeHandler = (event) => {
@@ -61,14 +60,14 @@ const CreateAppointment = () => {
           >
             {doctors.map((doctor) => (
               <option key={doctor.id} value={doctor.id}>
-                {doctor.firstname} {doctor.lastname}
+                [{doctor.id}] {doctor.firstname} {doctor.lastname}
               </option>
             ))}
           </select>
         </div>
         <div className={styles.block}>
           <label>Date and time</label>
-          <DateTimePicker value={dateAndTime} onChange={setDateAndTime} /> 
+          <DateTimePicker value={dateAndTime} onChange={setDateAndTime} />
         </div>
         <div className={styles.block}>
           <label>Duration (minutes)</label>

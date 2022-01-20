@@ -32,71 +32,56 @@ public class ClinicController {
 
 	@Autowired
 	ClinicService clinicService;
-	
+
 	@Autowired
 	AppointmentService appointmentService;
-	
+
 	@GetMapping
-	private ResponseEntity<List<ClinicDTO>> findAll(){
+	private ResponseEntity<List<ClinicDTO>> findAll() {
 		List<ClinicDTO> clinicDTOList = new ArrayList<>();
 		for (Clinic clinic : clinicService.findAll()) {
 			clinicDTOList.add(new ClinicDTO(clinic));
 		}
 		return new ResponseEntity<>(clinicDTOList, HttpStatus.OK);
 	}
-	
+
 	@GetMapping(value = "/{id}")
-	private ResponseEntity<ClinicDTO> findOne(@PathVariable("id") Long id){
+	private ResponseEntity<ClinicDTO> findOne(@PathVariable("id") Long id) {
 		Clinic clinic = clinicService.findClinicById(id);
 		return new ResponseEntity<>(new ClinicDTO(clinic), HttpStatus.OK);
 	}
-	
+
 	@GetMapping(value = "/{clinicId}/{doctorId}")
-	private ResponseEntity<List<AppointmentDTO>> findClinicAppointments(@PathVariable("clinicId") Long clinicId, @PathVariable("doctorId") Long doctorId){
+	private ResponseEntity<List<AppointmentDTO>> findClinicAppointments(@PathVariable("clinicId") Long clinicId,
+			@PathVariable("doctorId") Long doctorId) {
 		List<Appointment> clinicAppointments = appointmentService.findAllClinic(clinicId);
 		List<AppointmentDTO> appointmentsDTO = new ArrayList<>();
 		for (Appointment appointment : clinicAppointments) {
 			if (appointment.getDoctor().getId().equals(doctorId)) {
-				appointmentsDTO.add(new AppointmentDTO(appointment));	
+				appointmentsDTO.add(new AppointmentDTO(appointment));
 			}
 		}
 		return new ResponseEntity<>(appointmentsDTO, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/search")
-	private ResponseEntity<List<ClinicDTO>> findAllByDate(@RequestBody FilterDTO filter){
-		System.out.println(filter.getDate());
+	private ResponseEntity<List<ClinicDTO>> findAllByDate(@RequestBody FilterDTO filter) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-M-yyyy");
 		LocalDate date = LocalDate.parse(filter.getDate(), formatter);
 		List<ClinicDTO> clinicDTOList = new ArrayList<>();
-		
-		if(!filter.getTerm().equals("")) {
+
+		if (!filter.getTerm().equals("")) {
 			for (Clinic clinic : clinicService.findClinicsByAppointmentDate(date)) {
 				if (clinicService.searchByAny(filter.getTerm()).contains(clinic)) {
 					clinicDTOList.add(new ClinicDTO(clinic));
 				}
 			}
-		}else {
+		} else {
 			for (Clinic clinic : clinicService.findClinicsByAppointmentDate(date)) {
 				clinicDTOList.add(new ClinicDTO(clinic));
 			}
 		}
-		
+
 		return new ResponseEntity<>(clinicDTOList, HttpStatus.OK);
 	}
-	
-//	@PostMapping("/search")
-//	private ResponseEntity<List<ClinicDTO>> search(@RequestBody String term){
-//		List<ClinicDTO> clinicDTOList = new ArrayList<>();
-//		if(term.equals("")) {
-//			for (Clinic clinic : clinicService.findAll()) {
-//				clinicDTOList.add(new ClinicDTO(clinic));
-//			}
-//		}else {
-//			for (Clinic clinic : clinicService.searchByAny(term)) {
-//				clinicDTOList.add(new ClinicDTO(clinic));
-//			}
-//		}
-//		return new ResponseEntity<>(clinicDTOList, HttpStatus.OK);
-//	}
 }

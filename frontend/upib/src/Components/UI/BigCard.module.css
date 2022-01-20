@@ -1,9 +1,19 @@
 .card {
-    padding: 1rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-    border-radius: 14px;
-    background-color: white;
-    width: 60%;
-    margin: auto;
-    margin-top: 2rem;
-  }
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  background-color: white;
+  width: 60%;
+  margin: auto;
+  margin-top: 2rem;
+}
+
+.card div {
+  width: max-content;
+}
+
+.card ul {
+  align-items: center;
+  padding-inline-start: 10px;
+  width: 50%;
+}

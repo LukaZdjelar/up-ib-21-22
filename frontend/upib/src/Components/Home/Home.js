@@ -27,11 +27,6 @@ const Home = (props) => {
       ></HomeItem>
       <HomeItem
         userType="PATIENT"
-        text="Medical record"
-        navigate="/"
-      ></HomeItem>
-      <HomeItem
-        userType="PATIENT"
         text="My profile"
         navigate={`/user/${JSON.parse(localStorage.getItem("loggedUser")).id}`}
       ></HomeItem>

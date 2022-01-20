@@ -28,7 +28,6 @@ const Clinics = () => {
       date: stringDate,
       term: term,
     };
-    console.log(stringDate);
     const response = await axios.post(
       "http://localhost:8080/clinic/search",
       filter

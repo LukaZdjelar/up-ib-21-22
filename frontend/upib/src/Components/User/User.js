@@ -1,7 +1,7 @@
 import BigCard from "../UI/BigCard";
 import { useNavigate } from "react-router-dom";
 import styles from "./User.module.css";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 const User = () => {
@@ -25,12 +25,11 @@ const User = () => {
   };
   return (
     <BigCard>
-      <p>{user.firstname}</p>
-      <p>{user.lastname}</p>
-      <p>{user.email}</p>
-      <p>{user.password}</p>
-      <p>{user.phoneNumber}</p>
-      <p>{user.address}</p>
+      <p>First name: {user.firstname}</p>
+      <p>Last name: {user.lastname}</p>
+      <p>E-mail: {user.email}</p>
+      <p>Phone number: {user.phoneNumber}</p>
+      <p>Address: {user.address}</p>
       <button className={styles.button} onClick={editClickHandler}>
         Edit profile info
       </button>
