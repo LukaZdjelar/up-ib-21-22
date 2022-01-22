@@ -20,6 +20,9 @@ const Appointment = () => {
         "/" +
         String(params.doctorId)
     );
+    response.data.sort((a, b) =>
+      a.dateAndTime > b.dateAndTime ? 1 : b.dateAndTime > a.dateAndTime ? -1 : 0
+    );
     setAppointments(response.data);
   };
 

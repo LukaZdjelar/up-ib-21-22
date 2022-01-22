@@ -1,5 +1,6 @@
 package com.ftn.upib.serviceImpl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Autowired
 	AppointmentRepository appointmentRepository;
-	
+
 	@Override
 	public List<Appointment> findAll() {
 		return appointmentRepository.findAll();
@@ -28,7 +29,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 		List<Appointment> clinicAppointments = new ArrayList<>();
 		List<Appointment> allAppointments = findAll();
 		for (Appointment appointment : allAppointments) {
-			if (appointment.getClinic().getId() == id && appointment.isFree()==true) {
+			if (appointment.getClinic().getId() == id && appointment.isFree() == true
+					&& appointment.getDateAndTime().isAfter(LocalDateTime.now())) {
 				clinicAppointments.add(appointment);
 			}
 		}
