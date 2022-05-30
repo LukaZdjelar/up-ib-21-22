@@ -8,6 +8,7 @@ import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,12 +46,14 @@ public class AppointmentController {
 	
 	@Autowired
 	EmailService emailService;
-	
+
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
 	@GetMapping(value="/{id}")
 	private ResponseEntity<AppointmentDTO> get(@PathVariable("id") Long id){
 		return new ResponseEntity<>(new AppointmentDTO(appointmentService.findAppointmentById(id)), HttpStatus.OK);
 	}
-	
+
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR')")
 	@PostMapping
 	private ResponseEntity<AppointmentDTO> create(@RequestBody AppointmentDTO appointmentDTO){
 		Appointment appointment = new Appointment(null, userService.findUserById(appointmentDTO.getDoctorId()), appointmentDTO.getDateAndTime(), appointmentDTO.getPrice(), appointmentDTO.getDuration(), clinicService.findClinicById(appointmentDTO.getClinicId()), true);
@@ -58,7 +61,8 @@ public class AppointmentController {
 		appointmentService.create(appointment);
 		return new ResponseEntity<>(new AppointmentDTO(appointment), HttpStatus.OK);
 	}
-	
+
+	@PreAuthorize("hasAnyRole('PATIENT')")
 	@PostMapping(value="/schedule")
 	private ResponseEntity<CheckUpDTO> schedule(@RequestBody CheckUpDTO checkUpDTO){
 		CheckUp checkup = new CheckUp(null, appointmentService.findAppointmentById(checkUpDTO.getAppointmentId()), userService.findUserById(checkUpDTO.getPatientId()), "");
@@ -71,21 +75,18 @@ public class AppointmentController {
 		emailService.sendEmail(patientEmail, message);
 		return new ResponseEntity<>(checkUpDTO, HttpStatus.OK);
 	}
-	
+
+	@PreAuthorize("hasAnyRole('PATIENT')")
 	@GetMapping(value="/history/{id}")
 	private ResponseEntity<List<AppointmentDTO>> history(@PathVariable("id") Long id){
-//		List<CheckUpDTO> checkUpListDTO = new ArrayList<CheckUpDTO>();
-//		for (CheckUp checkUp : checkupService.findAllByPatient(id)) {
-//			checkUpListDTO.add(new CheckUpDTO(checkUp));
-//		}
-//		return new ResponseEntity<>(checkUpListDTO, HttpStatus.OK);
 		List<AppointmentDTO> appointmentListDTO = new ArrayList<>();
 		for (Appointment appointment : checkupService.findAppointmentByPatientId(id)) {
 			appointmentListDTO.add(new AppointmentDTO(appointment));
 		}
 		return new ResponseEntity<>(appointmentListDTO, HttpStatus.OK);
 	}
-	
+
+	@PreAuthorize("hasAnyRole('DOCTOR')")
 	@GetMapping(value="/workcalendar/{id}")
 	private ResponseEntity<List<AppointmentDTO>> workCalendar(@PathVariable("id") Long id){
 		List<AppointmentDTO> appointmentListDTO = new ArrayList<>();
