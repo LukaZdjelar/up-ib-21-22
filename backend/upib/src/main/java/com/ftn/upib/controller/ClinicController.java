@@ -37,7 +37,7 @@ public class ClinicController {
 	@Autowired
 	AppointmentService appointmentService;
 
-	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
+//	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
 	@GetMapping
 	private ResponseEntity<List<ClinicDTO>> findAll() {
 		List<ClinicDTO> clinicDTOList = new ArrayList<>();
@@ -47,14 +47,14 @@ public class ClinicController {
 		return new ResponseEntity<>(clinicDTOList, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
+//	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
 	@GetMapping(value = "/{id}")
 	private ResponseEntity<ClinicDTO> findOne(@PathVariable("id") Long id) {
 		Clinic clinic = clinicService.findClinicById(id);
 		return new ResponseEntity<>(new ClinicDTO(clinic), HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
+//	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
 	@GetMapping(value = "/{clinicId}/{doctorId}")
 	private ResponseEntity<List<AppointmentDTO>> findClinicAppointments(@PathVariable("clinicId") Long clinicId,
 			@PathVariable("doctorId") Long doctorId) {
@@ -68,7 +68,7 @@ public class ClinicController {
 		return new ResponseEntity<>(appointmentsDTO, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
+//	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
 	@PostMapping("/search")
 	private ResponseEntity<List<ClinicDTO>> findAllByDate(@RequestBody FilterDTO filter) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-M-yyyy");

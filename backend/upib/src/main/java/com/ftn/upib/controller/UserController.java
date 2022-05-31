@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,18 +41,20 @@ public class UserController {
 	@Autowired
 	UserDetailsService userDetailsService;
 	@Autowired
+	PasswordEncoder passwordEncoder;
+	@Autowired
 	UserService userService;
-	
-	@PostMapping("/login")
-	private ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
-//		User user = userService.login(userDTO.getEmail(), userDTO.getPassword());
-//
-//		if(user == null) {
-//			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//		}
-//
-//		return new ResponseEntity<>(new UserDTO(user), HttpStatus.OK);
 
+	@GetMapping("/encode")
+	private void encode(){
+		for (User user: userService.findAll()) {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			userService.save(user);
+		}
+	}
+
+	@GetMapping("/login")
+	private ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword());
 		Authentication authentication = authenticationManager.authenticate(authenticationToken);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -65,14 +68,14 @@ public class UserController {
 		}
 	}
 
-	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
+//	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
 	@GetMapping(value = "/{id}")
 	private ResponseEntity<UserDTO> findOne(@PathVariable("id") Long id){
 		User user = userService.findUserById(id);
 		return new ResponseEntity<>(new UserDTO(user), HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
+//	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
 	@PutMapping(value = "/{id}")
 	private ResponseEntity<UserDTO> update(@RequestBody UserDTO updated, @PathVariable("id") Long id){
 		
@@ -83,7 +86,7 @@ public class UserController {
 		return new ResponseEntity<>(updated, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
+//	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
 	@GetMapping(value="/doctors/{id}")
 	private ResponseEntity<List<UserDTO>> findDoctors(@PathVariable("id") Long id){
 		List<UserDTO> doctorsDTOList = new ArrayList<>();
