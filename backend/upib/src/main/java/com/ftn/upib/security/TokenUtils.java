@@ -1,8 +1,12 @@
 package com.ftn.upib.security;
 
+import com.ftn.upib.model.EUserType;
+import com.ftn.upib.model.User;
+import com.ftn.upib.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -19,6 +23,9 @@ public class TokenUtils {
 
     @Value("3600")
     private Long expiration;
+    @Autowired
+    UserService userService;
+
 
     public String getUsernameFromToken(String token) {
         String username;
@@ -65,9 +72,18 @@ public class TokenUtils {
     }
 
     public String generateToken(UserDetails userDetails) {
+        User user = userService.findUserByEmail(userDetails.getUsername());
         Map<String, Object> claims = new HashMap<String, Object>();
         claims.put("sub", userDetails.getUsername());
         claims.put("role", userDetails.getAuthorities().toArray()[0]);
+        claims.put("id", user.getId());
+
+        if (user.getUserType().equals(EUserType.PATIENT)){
+            claims.put("clinicId","none");
+        }else{
+            claims.put("clinicId", userService.findUserByEmail(userDetails.getUsername()).getClinic().getId());
+        }
+
         claims.put("created", new Date(System.currentTimeMillis()));
         return Jwts.builder().setClaims(claims)
                 .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))

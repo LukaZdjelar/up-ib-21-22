@@ -49,13 +49,13 @@ public class AppointmentController {
 
 	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
 	@GetMapping(value="/{id}")
-	private ResponseEntity<AppointmentDTO> get(@PathVariable("id") Long id){
+	public ResponseEntity<AppointmentDTO> get(@PathVariable("id") Long id){
 		return new ResponseEntity<>(new AppointmentDTO(appointmentService.findAppointmentById(id)), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR')")
 	@PostMapping
-	private ResponseEntity<AppointmentDTO> create(@RequestBody AppointmentDTO appointmentDTO){
+	public ResponseEntity<AppointmentDTO> create(@RequestBody AppointmentDTO appointmentDTO){
 		Appointment appointment = new Appointment(null, userService.findUserById(appointmentDTO.getDoctorId()), appointmentDTO.getDateAndTime(), appointmentDTO.getPrice(), appointmentDTO.getDuration(), clinicService.findClinicById(appointmentDTO.getClinicId()), true);
 		
 		appointmentService.create(appointment);
@@ -64,7 +64,7 @@ public class AppointmentController {
 
 	@PreAuthorize("hasAnyRole('PATIENT')")
 	@PostMapping(value="/schedule")
-	private ResponseEntity<CheckUpDTO> schedule(@RequestBody CheckUpDTO checkUpDTO){
+	public ResponseEntity<CheckUpDTO> schedule(@RequestBody CheckUpDTO checkUpDTO){
 		CheckUp checkup = new CheckUp(null, appointmentService.findAppointmentById(checkUpDTO.getAppointmentId()), userService.findUserById(checkUpDTO.getPatientId()), "");
 		Appointment appointment = appointmentService.findAppointmentById(checkUpDTO.getAppointmentId());
 		appointmentService.schedule(appointment);
@@ -78,7 +78,7 @@ public class AppointmentController {
 
 	@PreAuthorize("hasAnyRole('PATIENT')")
 	@GetMapping(value="/history/{id}")
-	private ResponseEntity<List<AppointmentDTO>> history(@PathVariable("id") Long id){
+	public ResponseEntity<List<AppointmentDTO>> history(@PathVariable("id") Long id){
 		List<AppointmentDTO> appointmentListDTO = new ArrayList<>();
 		for (Appointment appointment : checkupService.findAppointmentByPatientId(id)) {
 			appointmentListDTO.add(new AppointmentDTO(appointment));
@@ -88,7 +88,7 @@ public class AppointmentController {
 
 	@PreAuthorize("hasAnyRole('DOCTOR')")
 	@GetMapping(value="/workcalendar/{id}")
-	private ResponseEntity<List<AppointmentDTO>> workCalendar(@PathVariable("id") Long id){
+	public ResponseEntity<List<AppointmentDTO>> workCalendar(@PathVariable("id") Long id){
 		List<AppointmentDTO> appointmentListDTO = new ArrayList<>();
 		for (Appointment appointment : appointmentService.findAppointmentByDoctorId(id)) {
 			appointmentListDTO.add(new AppointmentDTO(appointment));

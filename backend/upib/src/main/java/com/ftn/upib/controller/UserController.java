@@ -46,15 +46,15 @@ public class UserController {
 	UserService userService;
 
 	@GetMapping("/encode")
-	private void encode(){
+	public void encode(){
 		for (User user: userService.findAll()) {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			userService.save(user);
 		}
 	}
 
-	@GetMapping("/login")
-	private ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
+	@PostMapping("/login")
+	public ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword());
 		Authentication authentication = authenticationManager.authenticate(authenticationToken);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -68,17 +68,19 @@ public class UserController {
 		}
 	}
 
-//	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
 	@GetMapping(value = "/{id}")
-	private ResponseEntity<UserDTO> findOne(@PathVariable("id") Long id){
+	public ResponseEntity<UserDTO> findOne(@PathVariable("id") Long id){
+		//preko tokena
 		User user = userService.findUserById(id);
 		return new ResponseEntity<>(new UserDTO(user), HttpStatus.OK);
 	}
 
-//	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
 	@PutMapping(value = "/{id}")
-	private ResponseEntity<UserDTO> update(@RequestBody UserDTO updated, @PathVariable("id") Long id){
-		
+	public ResponseEntity<UserDTO> update(@RequestBody UserDTO updated, @PathVariable("id") Long id){
+		//preko tokena
+
 		User user = userService.findUserById(id);
 		user = new User(id, updated.getFirstname(), updated.getLastname(), user.getUserType(), user.getEmail(), updated.getPassword(), updated.getAddress(), updated.getPhoneNumber(), user.getLbo(), user.getClinic());
 		
@@ -86,9 +88,9 @@ public class UserController {
 		return new ResponseEntity<>(updated, HttpStatus.OK);
 	}
 
-//	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
 	@GetMapping(value="/doctors/{id}")
-	private ResponseEntity<List<UserDTO>> findDoctors(@PathVariable("id") Long id){
+	public ResponseEntity<List<UserDTO>> findDoctors(@PathVariable("id") Long id){
 		List<UserDTO> doctorsDTOList = new ArrayList<>();
 		for (User user : userService.findDoctorsByClinic(id)) {
 			doctorsDTOList.add(new UserDTO(user));
