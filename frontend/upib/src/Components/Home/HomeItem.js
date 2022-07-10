@@ -7,7 +7,9 @@ const HomeItem = (props) => {
     const navigate = useNavigate();
 
     const buttonClickHandler = () => {
-        navigate(props.navigate);
+        if (props.navigate !== "") {
+            navigate(props.navigate);
+        }
     };
 
     if (

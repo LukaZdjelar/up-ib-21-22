@@ -32,35 +32,35 @@ const Home = (props) => {
                 navigate={`/user/${TokenService.getUserId()}`}
             ></HomeItem>
 
-            <HomeItem userType="DOCTOR" text="Patients" navigate="/"></HomeItem>
-            <HomeItem userType="DOCTOR" text="Check-up" navigate="/"></HomeItem>
+            {/*<HomeItem userType="DOCTOR" text="Patients" navigate=""></HomeItem>*/}
+            {/*<HomeItem userType="DOCTOR" text="Check-up" navigate=""></HomeItem>*/}
             <HomeItem
                 userType="DOCTOR"
                 text="Work calendar"
                 navigate="/calendar"
             ></HomeItem>
-            <HomeItem userType="DOCTOR" text="My profile" navigate="/"></HomeItem>
+            <HomeItem userType="DOCTOR" text="My profile" navigate=""></HomeItem>
 
-            <HomeItem
-                userType="CLINIC_ADMINISTRATOR"
-                text="Edit clinic data"
-                navigate="/"
-            ></HomeItem>
-            <HomeItem
-                userType="CLINIC_ADMINISTRATOR"
-                text="Appointments"
-                navigate="/"
-            ></HomeItem>
+            {/*<HomeItem*/}
+            {/*    userType="CLINIC_ADMINISTRATOR"*/}
+            {/*    text="Edit clinic data"*/}
+            {/*    navigate=""*/}
+            {/*></HomeItem>*/}
+            {/*<HomeItem*/}
+            {/*    userType="CLINIC_ADMINISTRATOR"*/}
+            {/*    text="Appointments"*/}
+            {/*    navigate=""*/}
+            {/*></HomeItem>*/}
             <HomeItem
                 userType="CLINIC_ADMINISTRATOR"
                 text="Create new appointment"
                 navigate="/createAppointment"
             ></HomeItem>
-            <HomeItem
-                userType="CLINIC_ADMINISTRATOR"
-                text="Clinic report"
-                navigate="/"
-            ></HomeItem>
+            {/*<HomeItem*/}
+            {/*    userType="CLINIC_ADMINISTRATOR"*/}
+            {/*    text="Clinic report"*/}
+            {/*    navigate=""*/}
+            {/*></HomeItem>*/}
 
             <button className={styles.button} onClick={logoutButtonHandler}>
                 Log out

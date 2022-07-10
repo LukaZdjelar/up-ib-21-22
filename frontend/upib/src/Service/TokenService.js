@@ -27,14 +27,23 @@ const didTokenExpire = () => {
 }
 
 const getClinicId = () => {
+    if (jwtDecode(TokenService.getToken()) == null) {
+        return null
+    }
     return jwtDecode(TokenService.getToken()).clinicId
 }
 
 const getUserId = () => {
+    if (jwtDecode(TokenService.getToken()) == null) {
+        return null
+    }
     return jwtDecode(TokenService.getToken()).id
 }
 
 const getUserType = () => {
+    if (jwtDecode(TokenService.getToken()) == null) {
+        return null
+    }
     const role = jwtDecode(TokenService.getToken()).role.authority;
     return role.substring(5);
 }

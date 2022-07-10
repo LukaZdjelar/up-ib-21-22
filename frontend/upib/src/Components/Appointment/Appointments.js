@@ -4,7 +4,7 @@ import BigCard from "../UI/BigCard";
 import AppointmentCard from "../Appointment/AppointmentCard";
 import axios from "axios";
 
-const Appointment = () => {
+const Appointments = () => {
     const [appointments, setAppointments] = useState([]);
     const params = useParams();
 
@@ -47,4 +47,4 @@ const Appointment = () => {
     );
 };
 
-export default Appointment;
+export default Appointments;
