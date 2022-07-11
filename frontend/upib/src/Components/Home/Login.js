@@ -32,6 +32,7 @@ const Login = (props) => {
                         localStorage.setItem("clinicId", TokenService.getClinicId());
                     }
                     navigate("home");
+                    window.location.reload();
                 }
             })
             .catch((e) => {

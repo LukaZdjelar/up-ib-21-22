@@ -10,6 +10,7 @@ const setToken = (value) => {
 
 const removeToken = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("clinicId");
 }
 
 const decodeToken = (token) => {
@@ -27,21 +28,21 @@ const didTokenExpire = () => {
 }
 
 const getClinicId = () => {
-    if (jwtDecode(TokenService.getToken()) == null) {
+    if (TokenService.getToken() === null) {
         return null
     }
     return jwtDecode(TokenService.getToken()).clinicId
 }
 
 const getUserId = () => {
-    if (jwtDecode(TokenService.getToken()) == null) {
+    if (TokenService.getToken() === null) {
         return null
     }
     return jwtDecode(TokenService.getToken()).id
 }
 
 const getUserType = () => {
-    if (jwtDecode(TokenService.getToken()) == null) {
+    if (TokenService.getToken() === null) {
         return null
     }
     const role = jwtDecode(TokenService.getToken()).role.authority;

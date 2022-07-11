@@ -10,28 +10,58 @@ import User from "../Components/User/User";
 import EditUser from "../Components/User/EditUser";
 import CreateAppointment from "../Components/Appointment/CreateAppointment";
 import WorkCalendar from "../Components/Doctor/WorkCalendar";
+import {TokenService} from "./TokenService";
 
-const RouteService = () => {
-    let unauthorizedRoutes = [
-        {path: "/", component: Login},
-    ]
-    let patientRoutes = [
-        {path: "/home", component: Home},
-        {path: "/clinics", component: Clinics},
-        {path: "/clinics/:clinicId", component: Clinic},
-        {path: "/clinics/:clinicId/:doctorId", component: Appointments},
-        {path: "/clinics/:clinicId/:doctorId/:appointmentId", component: Appointment},
-        {path: "/clinics/:clinicId/:doctorId/:appointmentId/schedule", component: ScheduleAppointment},
-        {path: "/history", component: AppointmentHistory},
-        {path: "/user/:userId", component: User},
-        {path: "/user/:userId/edit", component: EditUser},
-    ]
-    let doctorRoutes = [
-        {path: "/home", component: Home},
-        {path: "/calendar", component: WorkCalendar},
-    ]
-    let adminRoutes = [
-        {path: "/home", component: Home},
-        {path: "/createAppointment", component: CreateAppointment},
-    ]
+const unauthorizedRoutes = [
+    {path: "/", element: <Login/>},
+]
+const patientRoutes = [
+    {path: "/home", element: <Home/>},
+    {path: "/clinics", element: <Clinics/>},
+    {path: "/clinics/:clinicId", element: <Clinic/>},
+    {path: "/clinics/:clinicId/:doctorId", element: <Appointments/>},
+    {path: "/clinics/:clinicId/:doctorId/:appointmentId", element: <Appointment/>},
+    {path: "/clinics/:clinicId/:doctorId/:appointmentId/schedule", element: <ScheduleAppointment/>},
+    {path: "/history", element: <AppointmentHistory/>},
+    {path: "/user/:userId", element: <User/>},
+    {path: "/user/:userId/edit", element: <EditUser/>},
+]
+const doctorRoutes = [
+    {path: "/home", element: <Home/>},
+    {path: "/calendar", element: <WorkCalendar/>},
+]
+const adminRoutes = [
+    {path: "/home", render: <Home/>},
+    {path: "/createAppointment", render: <CreateAppointment/>},
+]
+
+const getAllowedRoutes = () => {
+    let role = TokenService.getUserType()
+    if (role === null) {
+        return unauthorizedRoutes;
+    }
+    return getRoutesFromRole(role);
+}
+
+const getRoutesFromRole = (role) => {
+    if (role === "PATIENT") {
+        return patientRoutes
+    } else if (role === "DOCTOR") {
+        return doctorRoutes
+    } else if (role === "ADMINISTRATOR") {
+        return adminRoutes
+    }
+}
+
+const redirect = () => {
+    if (TokenService.getUserType() == null) {
+        return <Login/>
+    } else {
+        return <Home/>
+    }
+}
+export const RouteService = {
+    getAllowedRoutes,
+    getRoutesFromRole,
+    redirect
 }

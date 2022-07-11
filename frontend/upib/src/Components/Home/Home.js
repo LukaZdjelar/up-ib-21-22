@@ -12,6 +12,7 @@ const Home = (props) => {
     const logoutButtonHandler = () => {
         TokenService.removeToken()
         navigate("/");
+        window.location.reload();
     };
 
     return (
@@ -39,7 +40,7 @@ const Home = (props) => {
                 text="Work calendar"
                 navigate="/calendar"
             ></HomeItem>
-            <HomeItem userType="DOCTOR" text="My profile" navigate=""></HomeItem>
+            {/*<HomeItem userType="DOCTOR" text="My profile" navigate=""></HomeItem>*/}
 
             {/*<HomeItem*/}
             {/*    userType="CLINIC_ADMINISTRATOR"*/}
