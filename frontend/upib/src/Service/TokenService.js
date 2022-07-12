@@ -1,10 +1,20 @@
 import jwtDecode from "jwt-decode";
+import axios from "axios";
 
 const getToken = () => {
     return localStorage.getItem("token");
 }
 
-const setToken = (value) => {
+const getRefreshToken = () => {
+    return localStorage.getItem("refreshToken");
+}
+
+const setTokens = (response) => {
+    localStorage.setItem("token", response.token);
+    localStorage.setItem("refreshToken", response.refreshToken);
+}
+
+const setAccessToken = (value) => {
     localStorage.setItem("token", value);
 }
 
@@ -49,13 +59,27 @@ const getUserType = () => {
     return role.substring(5);
 }
 
+const refreshToken = () => {
+    axios.post("http://localhost:8080/user/refresh", getRefreshToken())
+        .then((response) => {
+            if (response.status === 200) {
+                console.log(response.data)
+                TokenService.setAccessToken(response.data)
+                console.log(TokenService.getToken())
+            }
+        })
+}
+
 export const TokenService = {
     getToken,
-    setToken,
+    getRefreshToken,
+    setTokens,
+    setAccessToken,
     removeToken,
     decodeToken,
     didTokenExpire,
     getClinicId,
     getUserId,
     getUserType,
+    refreshToken,
 };

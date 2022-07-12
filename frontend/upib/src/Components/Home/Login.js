@@ -23,21 +23,17 @@ const Login = (props) => {
         axios
             .post("http://localhost:8080/user/login", user)
             .then((response) => {
-                if (response.status !== 200) {
-                    setInvalid(true);
-                    setErrorMessage("Invalid input!");
-                } else {
-                    TokenService.setToken(response.data)
-                    if (response.data.userType !== "PATIENT") {
-                        localStorage.setItem("clinicId", TokenService.getClinicId());
-                    }
-                    navigate("home");
-                    window.location.reload();
+                TokenService.setTokens(response.data)
+                if (response.data.userType !== "PATIENT") {
+                    localStorage.setItem("clinicId", TokenService.getClinicId());
                 }
+                navigate("home");
+                window.location.reload();
+
             })
             .catch((e) => {
                 setInvalid(true);
-                setErrorMessage("Network error");
+                setErrorMessage("Invalid input");
             });
     };
 

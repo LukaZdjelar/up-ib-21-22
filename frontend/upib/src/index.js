@@ -9,8 +9,29 @@ import {TokenService} from "./Service/TokenService";
 
 axios.interceptors.request.use(request => {
     request.headers.Authorization = "Bearer " + TokenService.getToken();
-    console.log(TokenService.getToken())
     return request;
+});
+
+axios.interceptors.response.use(response => {
+    return response;
+}, error => {
+    const originalRequest = error.config;
+    console.log(error.response.status)
+
+    if (originalRequest.url === '/auth/refresh') {
+        localStorage.clear();
+        window.location.replace("/");
+        alert("Refresh token expired")
+        return Promise.reject(error);
+    }
+
+    if (error.response.status === 403) {
+        localStorage.clear();
+        window.location.replace("/");
+        alert("Access token expired")
+        return Promise.reject(error);
+    }
+    return Promise.reject(error);
 });
 
 ReactDOM.render(

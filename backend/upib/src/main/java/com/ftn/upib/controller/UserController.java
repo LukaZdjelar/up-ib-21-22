@@ -1,7 +1,9 @@
 package com.ftn.upib.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ftn.upib.security.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -54,17 +58,26 @@ public class UserController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
+	public ResponseEntity<Map> login(@RequestBody UserDTO userDTO) {
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword());
-		Authentication authentication = authenticationManager.authenticate(authenticationToken);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		try{
+			Authentication authentication = authenticationManager.authenticate(authenticationToken);
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+		}catch (AuthenticationException e){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
 		try {
 			UserDetails userDetails = userDetailsService.loadUserByUsername(userDTO.getEmail());
 			String token = tokenUtils.generateToken(userDetails);
-			System.out.println(token);
-			return ResponseEntity.ok(token);
+			String refreshToken = tokenUtils.generateRefreshToken(userDetails);
+			Map<String, String> tokens = new HashMap<>();
+			tokens.put("token", token);
+			tokens.put("refreshToken", refreshToken);
+			System.out.println(tokens);
+			return ResponseEntity.ok(tokens);
 		} catch (UsernameNotFoundException e){
-			return ResponseEntity.notFound().build();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -97,5 +110,18 @@ public class UserController {
 		}
 		
 		return new ResponseEntity<>(doctorsDTOList, HttpStatus.OK);
+	}
+
+	@PostMapping("/refresh")
+	public ResponseEntity<String> refresh(@RequestBody String refreshToken){
+		String username = tokenUtils.getUsernameFromToken(refreshToken);
+		if (username !=null){
+			UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+			if (tokenUtils.validateToken(refreshToken, userDetails) && userDetails.isAccountNonLocked() && userDetails.isAccountNonExpired()){
+				String newToken = tokenUtils.generateToken(userDetails);
+				return new ResponseEntity<>(newToken, HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 }

@@ -22,7 +22,10 @@ public class TokenUtils {
     private String secret;
 
     @Value("3600")
+//    @Value("30")
     private Long expiration;
+    @Value("86400")
+    private Long refreshExpiration;
     @Autowired
     UserService userService;
 
@@ -67,8 +70,7 @@ public class TokenUtils {
 
     public boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
-        return username.equals(userDetails.getUsername())
-                && !isTokenExpired(token);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
     public String generateToken(UserDetails userDetails) {
@@ -87,6 +89,17 @@ public class TokenUtils {
         claims.put("created", new Date(System.currentTimeMillis()));
         return Jwts.builder().setClaims(claims)
                 .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
+                .signWith(SignatureAlgorithm.HS512, secret).compact();
+    }
+
+    public String generateRefreshToken(UserDetails userDetails) {
+        User user = userService.findUserByEmail(userDetails.getUsername());
+        Map<String, Object> claims = new HashMap<String, Object>();
+        claims.put("sub", userDetails.getUsername());
+
+        claims.put("created", new Date(System.currentTimeMillis()));
+        return Jwts.builder().setClaims(claims)
+                .setExpiration(new Date(System.currentTimeMillis() + refreshExpiration * 1000))
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 

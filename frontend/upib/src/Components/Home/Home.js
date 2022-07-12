@@ -12,8 +12,13 @@ const Home = (props) => {
     const logoutButtonHandler = () => {
         TokenService.removeToken()
         navigate("/");
-        window.location.reload();
+        window.location.reload()
     };
+
+    const refreshButtonHandler = () => {
+        TokenService.refreshToken()
+        alert("Token refreshed")
+    }
 
     return (
         <Card>
@@ -62,6 +67,9 @@ const Home = (props) => {
             {/*    text="Clinic report"*/}
             {/*    navigate=""*/}
             {/*></HomeItem>*/}
+            <button className={styles.button} onClick={refreshButtonHandler}>
+                Refresh token
+            </button>
 
             <button className={styles.button} onClick={logoutButtonHandler}>
                 Log out
