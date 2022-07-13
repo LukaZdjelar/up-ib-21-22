@@ -78,8 +78,6 @@ public class UserController {
 	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<UserDTO> findOne(@RequestHeader("Authorization") String tokenBearer){
-		System.out.println(tokenBearer);
-		System.out.println(tokenBearer.substring(7));
 		String token = tokenBearer.substring(7);
 		String email = tokenUtils.getUsernameFromToken(token);
 		User user = userService.findUserByEmail(email);
@@ -89,8 +87,6 @@ public class UserController {
 	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<UserDTO> update(@RequestBody UserDTO updated, @RequestHeader("Authorization") String tokenBearer){
-		System.out.println(tokenBearer);
-		System.out.println(tokenBearer.substring(7));
 		String token = tokenBearer.substring(7);
 		String email = tokenUtils.getUsernameFromToken(token);
 		User user = userService.findUserByEmail(email);
