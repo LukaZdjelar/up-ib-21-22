@@ -1,4 +1,4 @@
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import "./App.css";
 import {RouteService} from "./Service/RouteService";
 
@@ -9,7 +9,7 @@ function App() {
                 {RouteService.getAllowedRoutes().map(route => {
                     return <Route path={route.path} element={route.element}/>
                 })}
-                <Route path='*' element={RouteService.redirect()}/>
+                <Route path='*' element={<Navigate to={RouteService.redirect()} replace/>}/>
             </Routes>
         </>
         // <Routes>

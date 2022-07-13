@@ -55,13 +55,13 @@ const getRoutesFromRole = (role) => {
 
 const redirect = () => {
     if (TokenService.getUserType() == null) {
-        return <Login/>
+        return "/"
     } else {
-        return <Home/>
+        return "/home"
     }
 }
 export const RouteService = {
     getAllowedRoutes,
     getRoutesFromRole,
-    redirect
+    redirect,
 }
