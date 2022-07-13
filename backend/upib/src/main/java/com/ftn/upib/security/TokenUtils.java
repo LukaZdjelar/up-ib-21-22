@@ -20,9 +20,7 @@ public class TokenUtils {
 
     @Value("String")
     private String secret;
-
-//    @Value("3600")
-    @Value("30")
+    @Value("3600")
     private Long expiration;
     @Value("86400")
     private Long refreshExpiration;
