@@ -54,9 +54,9 @@ const EditUser = () => {
         setPhoneNumber(event.target.value);
     };
 
-    const passwordInputChangeHandler = (event) => {
-        setPassword(event.target.value);
-    };
+    // const passwordInputChangeHandler = (event) => {
+    //     setPassword(event.target.value);
+    // };
 
     const formSubmitHandler = (event) => {
         event.preventDefault();
@@ -106,15 +106,15 @@ const EditUser = () => {
                         value={phoneNumber}
                     ></input>
                 </div>
-                <div className={styles.block}>
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        onChange={passwordInputChangeHandler}
-                        value={password}
-                    ></input>
-                </div>
+                {/*<div className={styles.block}>*/}
+                {/*    <label>Password</label>*/}
+                {/*    <input*/}
+                {/*        type="password"*/}
+                {/*        name="password"*/}
+                {/*        onChange={passwordInputChangeHandler}*/}
+                {/*        value={password}*/}
+                {/*    ></input>*/}
+                {/*</div>*/}
                 <div className={styles.button}>
                     <button type="submit">Confirm</button>
                 </div>

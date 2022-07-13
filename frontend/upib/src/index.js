@@ -26,8 +26,8 @@ axios.interceptors.response.use(response => {
     }
 
     if (error.response.status === 403) {
-        localStorage.clear();
-        window.location.replace("/");
+        // localStorage.clear();
+        window.location.replace("/home");
         alert("Access token expired")
         return Promise.reject(error);
     }

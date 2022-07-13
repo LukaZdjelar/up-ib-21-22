@@ -8,7 +8,6 @@ import {TokenService} from "../../Service/TokenService";
 
 const Home = (props) => {
     const navigate = useNavigate();
-
     const logoutButtonHandler = () => {
         TokenService.removeToken()
         navigate("/");

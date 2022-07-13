@@ -21,13 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.ftn.upib.dto.UserDTO;
 import com.ftn.upib.model.User;
@@ -83,19 +77,24 @@ public class UserController {
 
 	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<UserDTO> findOne(@PathVariable("id") Long id){
-		//preko tokena
-		User user = userService.findUserById(id);
+	public ResponseEntity<UserDTO> findOne(@RequestHeader("Authorization") String tokenBearer){
+		System.out.println(tokenBearer);
+		System.out.println(tokenBearer.substring(7));
+		String token = tokenBearer.substring(7);
+		String email = tokenUtils.getUsernameFromToken(token);
+		User user = userService.findUserByEmail(email);
 		return new ResponseEntity<>(new UserDTO(user), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<UserDTO> update(@RequestBody UserDTO updated, @PathVariable("id") Long id){
-		//preko tokena
-
-		User user = userService.findUserById(id);
-		user = new User(id, updated.getFirstname(), updated.getLastname(), user.getUserType(), user.getEmail(), updated.getPassword(), updated.getAddress(), updated.getPhoneNumber(), user.getLbo(), user.getClinic());
+	public ResponseEntity<UserDTO> update(@RequestBody UserDTO updated, @RequestHeader("Authorization") String tokenBearer){
+		System.out.println(tokenBearer);
+		System.out.println(tokenBearer.substring(7));
+		String token = tokenBearer.substring(7);
+		String email = tokenUtils.getUsernameFromToken(token);
+		User user = userService.findUserByEmail(email);
+		user = new User(user.getId(), updated.getFirstname(), updated.getLastname(), user.getUserType(), user.getEmail(), updated.getPassword(), updated.getAddress(), updated.getPhoneNumber(), user.getLbo(), user.getClinic());
 		
 		userService.save(user);
 		return new ResponseEntity<>(updated, HttpStatus.OK);
