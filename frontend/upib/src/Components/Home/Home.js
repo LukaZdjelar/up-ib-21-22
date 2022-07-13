@@ -34,7 +34,7 @@ const Home = (props) => {
             <HomeItem
                 userType="PATIENT"
                 text="My profile"
-                navigate={`/user/${TokenService.getUserId()}`}
+                navigate="/user"
             ></HomeItem>
 
             {/*<HomeItem userType="DOCTOR" text="Patients" navigate=""></HomeItem>*/}

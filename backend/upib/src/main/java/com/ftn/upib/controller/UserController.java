@@ -76,7 +76,7 @@ public class UserController {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
-	@GetMapping(value = "/{id}")
+	@GetMapping
 	public ResponseEntity<UserDTO> findOne(@RequestHeader("Authorization") String tokenBearer){
 		System.out.println(tokenBearer);
 		System.out.println(tokenBearer.substring(7));
@@ -87,7 +87,7 @@ public class UserController {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMINISTRATOR', 'CLINIC_ADMINISTRATOR', 'DOCTOR', 'NURSE', 'PATIENT')")
-	@PutMapping(value = "/{id}")
+	@PutMapping
 	public ResponseEntity<UserDTO> update(@RequestBody UserDTO updated, @RequestHeader("Authorization") String tokenBearer){
 		System.out.println(tokenBearer);
 		System.out.println(tokenBearer.substring(7));

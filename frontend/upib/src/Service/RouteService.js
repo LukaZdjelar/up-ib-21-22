@@ -23,8 +23,8 @@ const patientRoutes = [
     {path: "/clinics/:clinicId/:doctorId/:appointmentId", element: <Appointment/>},
     {path: "/clinics/:clinicId/:doctorId/:appointmentId/schedule", element: <ScheduleAppointment/>},
     {path: "/history", element: <AppointmentHistory/>},
-    {path: "/user/:userId", element: <User/>},
-    {path: "/user/:userId/edit", element: <EditUser/>},
+    {path: "/user", element: <User/>},
+    {path: "/user/edit", element: <EditUser/>},
 ]
 const doctorRoutes = [
     {path: "/home", element: <Home/>},

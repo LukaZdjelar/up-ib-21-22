@@ -3,10 +3,8 @@ import {useNavigate} from "react-router-dom";
 import styles from "./User.module.css";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {TokenService} from "../../Service/TokenService";
 
 const User = () => {
-    const userId = TokenService.getUserId();
     const [user, setUser] = useState([]);
     const navigate = useNavigate();
 
@@ -15,9 +13,7 @@ const User = () => {
     }, []);
 
     const sendGetRequest = async () => {
-        const response = await axios.get(
-            "http://localhost:8080/user/" + String(userId)
-        );
+        const response = await axios.get("http://localhost:8080/user/");
         setUser(response.data);
     };
 

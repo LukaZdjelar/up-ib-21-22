@@ -3,11 +3,9 @@ import styles from "./EditUser.module.css";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import {TokenService} from "../../Service/TokenService";
 
 const EditUser = () => {
     const navigate = useNavigate();
-    const userId = TokenService.getUserId();
 
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
@@ -20,9 +18,7 @@ const EditUser = () => {
     }, []);
 
     const sendGetRequest = async () => {
-        const response = await axios.get(
-            "http://localhost:8080/user/" + String(userId)
-        );
+        const response = await axios.get("http://localhost:8080/user/");
         setFirstname(response.data.firstname);
         setLastname(response.data.lastname);
         setAddress(response.data.address);
@@ -61,9 +57,9 @@ const EditUser = () => {
     const formSubmitHandler = (event) => {
         event.preventDefault();
         axios
-            .put("http://localhost:8080/user/" + String(userId), editedUser)
+            .put("http://localhost:8080/user/", editedUser)
             .then(() => {
-                navigate("/user/" + String(userId));
+                navigate("/user");
             });
     };
 
