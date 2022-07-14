@@ -31,8 +31,8 @@ const doctorRoutes = [
     {path: "/calendar", element: <WorkCalendar/>},
 ]
 const adminRoutes = [
-    {path: "/home", render: <Home/>},
-    {path: "/createAppointment", render: <CreateAppointment/>},
+    {path: "/home", element: <Home/>},
+    {path: "/createAppointment", element: <CreateAppointment/>},
 ]
 
 const getAllowedRoutes = () => {
@@ -48,7 +48,7 @@ const getRoutesFromRole = (role) => {
         return patientRoutes
     } else if (role === "DOCTOR") {
         return doctorRoutes
-    } else if (role === "ADMINISTRATOR") {
+    } else if (role === "CLINIC_ADMINISTRATOR") {
         return adminRoutes
     }
 }

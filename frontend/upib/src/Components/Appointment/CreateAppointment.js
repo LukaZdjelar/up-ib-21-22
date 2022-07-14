@@ -4,8 +4,11 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import DateTimePicker from "react-datetime-picker";
 import {TokenService} from "../../Service/TokenService";
+import {navigate} from "react-big-calendar/lib/utils/constants";
+import {useNavigate} from "react-router-dom";
 
 const CreateAppointment = () => {
+    const navigate = useNavigate()
     const [doctors, setDoctors] = useState([]);
     const [doctor, setDoctor] = useState(null);
     const [dateAndTime, setDateAndTime] = useState(null); //TODO: Vremenske zone 17:00 -> 15:00
@@ -20,8 +23,9 @@ const CreateAppointment = () => {
         const response = await axios.get(
             "http://localhost:8080/user/doctors/" +
             TokenService.getClinicId()
-        );
+        )
         setDoctors(response.data);
+        setDoctor(response.data[0])
     };
 
     const formSubmitHandler = (event) => {
@@ -34,7 +38,8 @@ const CreateAppointment = () => {
                 TokenService.getClinicId()
             ),
         };
-        axios.post("http://localhost:8080/appointment", appointment);
+        axios.post("http://localhost:8080/appointment", appointment)
+        navigate("/home")
     };
 
     const doctorInputChangeHandler = (event) => {
